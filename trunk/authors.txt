@@ -1,0 +1,8 @@
+Authors:
+
+rzar (Rinat R. Zaripov)
+igor-kostromin (Igor Kostromin)
+
+Thanks to:
+
+Kristopher D. Johnson (vlc 1.1.0 migration)

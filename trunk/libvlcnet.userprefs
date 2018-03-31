@@ -1,0 +1,56 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Option id="ShowVersionControlOverlays" value="True" />
+          <Option id="ShowAllFiles" value="False" />
+          <Node name="samples" expanded="True">
+            <Node name="mac-player" expanded="True" />
+          </Node>
+          <Node name="Solution Items" expanded="True" />
+          <Node name="tests" expanded="True">
+            <Node name="media-player-vlc-tests" expanded="True">
+              <Node name="StreamingTest.cs" selected="True" />
+            </Node>
+            <Node name="media-player-vlc-tests-console" expanded="True" />
+          </Node>
+          <Node name="media-player-vlc" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="Internal" expanded="True" />
+          </Node>
+          <Node name="media-player-vlc-windows" expanded="True" />
+          <Node name="media-player-vlc-winforms" expanded="True">
+            <Node name="VlcPlayerControl.cs" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>exc</Value>
+        </State>
+      </Pad>
+      <Pad Id="ConnectionManagerPad">
+        <State selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State expanded="True" selected="True">
+          <Node name="tests" expanded="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/rz/Projects/libvlc.net-git/libvlcnet/trunk/tests/media-player-vlc-tests/VlcPlayerTestState.cs" line="40" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.samples.mac-player>
+    <MonoDevelop.Ide.CustomExecutionModes />
+  </MonoDevelop.Ide.ItemProperties.samples.mac-player>
+</Properties>

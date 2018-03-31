@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="build">
+
+  <if test="${not property::exists('project.root-relative-path')}">
+  	<property name="project.root-relative-path" value="../../" overwrite="false" />
+  	<include buildfile="../../build-properties.build.xml" />
+  </if>
+  
+  <include buildfile="../../build-common.build.xml" />
+  
+  <loadtasks assembly="${project.3rd-parties.dir}/monobjc/NAnt.Monobjc.dll" />
+  
+  <target name="build" >
+    <property name="assembly-name" value="MacPlayer" overwrite="true"  />
+    <property name="assembly-description" value="Cocoa based VLC player." overwrite="true"  />
+
+    <call target="generate_asminfo"/>
+    
+    <!--
+    <resgen usesourcepath="true" >
+      <resources >
+        <include name="/**.resx"/>
+        <exclude name="**/obj/Debug/**"/>
+        <exclude name="**/obj/Release/**"/>
+      </resources>
+    </resgen>
+    -->
+    
+    <mkdir dir="${project.output.dir}/MacPlayer"/>
+
+    <csc target="winexe" output="${project.output.dir}/MacPlayer/${assembly-name}.exe"
+         debug="${project.is-debug}" optimize="${project.is-optimized}" 
+         doc="${project.output.dir}/MacPlayer/${assembly-name}.xml" win32icon="./vlc_icon.ico" >
+      <!--<nowarn><warning number="1591"/></nowarn>-->
+      <sources>
+        <include name="/**.cs"/>
+      </sources>
+      <!--
+      <resources dynamicprefix="true" prefix="MacPlayer"  >
+        <include name="/**.resources" />
+        <exclude name="**/obj/Debug/**"/>
+        <exclude name="**/obj/Release/**"/>
+      </resources>
+      -->
+      <references>
+        <lib>
+          <include name="${project.3rd-parties.dir}/common-logging" />
+          <include name="${project.3rd-parties.dir}/monobjc" />
+          <include name="${project.output.dir}" />
+        </lib>
+        
+        <include name="System.dll" />
+        
+        <include name="Common.Logging.dll"/>
+        <include name="Common.Logging.NLog.dll"/>
+        <include name="Common.Logging.Log4Net.dll"/>
+        <include name="log4net.dll"/>
+        <include name="NLog.dll"/>
+
+        <include name="dz.mediaplayer.dll"/>
+        <include name="dz.mediaplayer.vlc.dll"/>
+        
+        <include name="Monobjc.dll" />
+        <include name="Monobjc.Cocoa.dll" />
+      </references>
+
+      <arg value="/filealign:${project.file-alignment}" unless="${project.build.is-mono}"/>
+    
+    </csc>
+    
+    <copy file="./App.config" tofile="${project.output.dir}/MacPlayer/${assembly-name}.exe.config" />
+    
+    <!-- it is important to change location of 'lib' directory -->
+    
+    <copy file="${project.output.dir}/dz.mediaplayer.vlc.dll.config" 
+    	tofile="${project.output.dir}/MacPlayer/dz.mediaplayer.vlc.dll.config" />
+    	
+    <xmlpoke file="${project.output.dir}/MacPlayer/dz.mediaplayer.vlc.dll.config"
+    	xpath="//configuration/dllmap/@target"
+    	value="./Contents/Resources/lib/libvlc.dylib" />
+    	
+    <!--.......................................................-->
+    
+    <!-- Create the application bundle -->
+    <mkappl name="MacPlayer" icon="vlc_icon.icns" infoplist="Info.plist" todir="${project.output.dir}/MacPlayer/">
+      <!-- Copy bridge libraries -->
+      <copy-in-macos basedir="${project.3rd-parties.dir}/monobjc">
+        <include name="libmonobjc.*.dylib"/>
+      </copy-in-macos>
+
+      <copy-in-resources basedir="${project.output.dir}/MacPlayer">
+        <include name="MacPlayer.exe"/>
+        <include name="MacPlayer.exe.config"/>
+        <include name="dz.mediaplayer.vlc.dll.config"/>
+      </copy-in-resources>
+      
+      <copy-in-resources basedir="${project.3rd-parties.dir}/libvlc">
+        <include name="libvlc-1.1.9-macosx.zip"/>
+      </copy-in-resources>
+
+      <copy-in-resources basedir="${project.3rd-parties.dir}/monobjc">
+        <include name="Monobjc.dll"/>
+        <include name="Monobjc.Cocoa.dll"/>
+      </copy-in-resources>
+      
+      <copy-in-resources basedir="${project.3rd-parties.dir}/common-logging">
+        <include name="Common.Logging.dll"/>
+        <include name="Common.Logging.NLog.dll"/>
+        <include name="Common.Logging.Log4Net.dll"/>
+        <include name="log4net.dll"/>
+        <include name="NLog.dll"/>
+      </copy-in-resources>
+      
+      <copy-in-resources basedir="${project.3rd-parties.dir}/sharp-zip-lib">
+        <include name="ICSharpCode.SharpZipLib.dll"/>
+      </copy-in-resources>
+      
+      <copy-in-resources basedir="${project.output.dir}">
+        <include name="dz.mediaplayer.dll"/>
+        <include name="dz.mediaplayer.vlc.dll"/>
+      </copy-in-resources>
+
+      <!-- Copy other files or folder -->
+      <copy-in-resources basedir=".">
+        <include name="*.lproj/**"/>
+      </copy-in-resources>
+    </mkappl>
+    
+  </target>
+  
+</project>

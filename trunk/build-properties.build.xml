@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="build" >
+
+  <property name="project.root-relative-path" value="." overwrite="false" />
+
+  <!-- compile with debugging information -->
+  <property name="project.is-debug" value="false" overwrite="false" />
+  
+  <!-- this directory is used to zip sources -->
+  <property name="project.sources.root.dir" value="${path::get-full-path(project.root-relative-path + '/../../libvlcnet')}" overwrite="false" />
+  <!-- this directory is used to get dependencies when compiling -->
+  <property name="project.3rd-parties.dir" value="${path::get-full-path(project.root-relative-path + '/../3rd-party')}" overwrite="false" />
+  
+  <!-- this directory is used as location of initial .build file -->
+  <property name="project.base.dir" value="${path::get-full-path('./')}" />
+  <!-- directory to place output binaries -->
+  <property name="project.output.dir" value="${path::combine(path::get-full-path(project.root-relative-path + '/output'), framework::get-target-framework())}" />
+  <!-- directory to place output packages (zipped binaries) -->
+  <property name="project.output.package.dir" value="${path::combine(path::get-full-path(project.root-relative-path + '/output'), 'packages')}" />
+
+  <!-- compile flag -->  
+  <property name="project.is-optimized" value="true" overwrite="true" />
+  <!-- file alignment, supported only on .net -->
+  <property name="project.file-alignment" value="512" overwrite="true" />
+  
+  <!-- project version -->
+  <property name="project.version" value="0.4.0.0" overwrite="false" />   
+  
+  <!-- zip file name for project sources -->
+  <property name="project.sources.zipfile-name" value="${path::combine(path::get-full-path(project.root-relative-path + '/output'), 'libvlcnet-' + project.version + '-src.zip')}"/>  
+
+  <!-- define project version info depending on debug/release build -->
+  <if test="${project.is-debug}">
+    <property name="project.version.info" value="${framework::get-target-framework()} debug" />
+    <property name="project.output.dir" value="${project.output.dir}/debug" />
+  </if>
+  <if test="${not project.is-debug}">
+    <property name="project.version.info" value="${framework::get-target-framework()} release" />
+    <property name="project.output.dir" value="${project.output.dir}/release" />
+  </if>
+
+  <property name="assembly-name" value="?" overwrite="true"  />
+  <property name="assembly-description" value="?" overwrite="true"  />
+  <property name="assembly-company" value="Digital Zone" overwrite="true"  />
+  <property name="assembly-configuration" value="${project.version.info}" overwrite="true"  />
+  <property name="assembly-version" value="${project.version}" overwrite="true"  />
+
+  <target name="prepare">
+    <if test="${not directory::exists(project.output.dir)}">
+      <mkdir dir="${project.output.dir}"/>
+    </if>
+  </target>
+
+  <property name="project.build.is-mono" value="${string::contains(framework::get-target-framework(), 'mono')}"/>
+
+</project>
