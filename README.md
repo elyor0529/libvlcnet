@@ -1,0 +1,2 @@
+# libvlcnet
+Lib VLC .NET
